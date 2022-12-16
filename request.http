@@ -6,7 +6,7 @@ content-type: application/json
    "username": "taimoorkhan",
    "firstname": "Taimoor",
    "lastname": "khan",
-   "email": "Taimoor8@gmail.com",
+   "email": "Taimoor10@gmail.com",
    "password": "12345678"
 }
 
@@ -15,9 +15,9 @@ POST http://localhost:3001/login HTTP/1.1
 content-type: application/json
 
 {
-   "email": "Taimoor8@gmail.com",
+   "email": "Taimoor@gmail.com",
    "password": "12345678"
 }
 
 ###
-GET http://localhost:3001/user/41529653-3db1-46c7-8965-121fdfac6e68 HTTP/1.1 
+GET http://localhost:3001/user/43adc184-6334-4d0e-8b82-5bc4e47b4860 HTTP/1.1 

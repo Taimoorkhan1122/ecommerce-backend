@@ -1,8 +1,7 @@
 const express = require("express");
 
-const { registerValidators, loginValidators } = require("./validators");
-const { HomeController } = require("./controllers/HomeController");
 const { init } = require("./dbconfig");
+const router = require("./routes");
 
 const app = express();
 app.use(express.json());
@@ -10,9 +9,7 @@ app.use(express.json());
 const port = process.env.PORT || 3001;
 // init();
 
-
-app.post("/register", registerValidators, HomeController.register);
-app.post("/login", loginValidators, HomeController.login);
+app.use("/", router);
 
 app.listen(port, () => {
     console.log("🚀 server up on port " + port);
