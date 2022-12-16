@@ -1,0 +1,13 @@
+POST http://localhost:3001/register HTTP/1.1
+content-type: application/json
+
+{
+   "username": "taimoorkhan",
+   "firstname": "Taimoor",
+   "lastname": "khan",
+   "email": "Taimo99or4@gmail.com",
+   "password": "12345678"
+}
+
+###
+GET http://localhost:3001/user/41529653-3db1-46c7-8965-121fdfac6e68 HTTP/1.1 
