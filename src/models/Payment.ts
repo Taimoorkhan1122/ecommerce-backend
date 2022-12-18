@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '.././dbconfig.js';
+import { sequelize } from '../dbconfig.js';
 
 const Payment = sequelize.define('Payment', {
     id: {

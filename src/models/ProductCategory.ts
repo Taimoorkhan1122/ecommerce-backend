@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '.././dbconfig.js';
+import { sequelize } from '../dbconfig.js';
 
-const Product = sequelize.define('Product', {
+const ProductCategory = sequelize.define('ProductCategory', {
     id: {
         primaryKey: true,
         allowNull: false,
@@ -10,9 +10,7 @@ const Product = sequelize.define('Product', {
     },
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    price: DataTypes.DECIMAL(20, 3),
 }, {
-    timestamps: true
+    timestamps: true,
 })
-
-export default Product;
+export default ProductCategory;

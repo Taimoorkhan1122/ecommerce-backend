@@ -1,115 +1,11 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { GraphQLError } from "graphql";
-import * as bcrypt from "bcrypt";
 
-import { connect, init } from ".././dbconfig.js";
-import { Merchant } from ".././models/index.js";
-import { userResponseParser } from ".././parser/userResponseParser.js";
+import { init } from "./dbconfig.js";
+import { typeDefs, resolvers } from "./schema/index.js";
 
+// initialize db connection
 init();
-const typeDefs = `#graphql
-    type User {
-        id: String!
-        username: String!
-        email: String!
-        firstname: String!
-        lastname: String!
-    }
-
-    type Merchant {
-        id: String!
-        shopname: String!,
-        username: String!,
-        email: String!
-    }
-
-    type Query {
-        merchant(email: String): Merchant
-    }
-
-    type Mutation {
-        addMerchant(
-            shopname:String!,
-            username:String!, 
-            email: String!, 
-            password: String!
-            ): Merchant
-    }
-`;
-
-const resolvers = {
-    Query: {
-        merchant: async (parent, args, contextValue, info) => {
-            try {
-                await connect();
-
-                const merch: any = await Merchant.findOne({
-                    where: {
-                        email: args.email,
-                    },
-                });
-
-                if (!merch)
-                    throw new GraphQLError("merchant not found", {
-                        extensions: {
-                            code: "QUERY_NOT_FOUND",
-                        },
-                    });
-
-                return {
-                    id: merch?.id,
-                    shopname: merch?.shopname,
-                    username: merch.username,
-                    email: merch.email,
-                };
-            } catch (error) {
-                console.log("error", error);
-                throw new Error(error);
-            }
-        },
-    },
-    Mutation: {
-        addMerchant: async (parent, args, contextValue, info) => {
-            console.log("...............", args);
-            const { shopname, email, firstname, lastname, username, password } = args;
-            try {
-                await connect();
-
-                let merch: any = await Merchant.findOne({
-                    where: {
-                        email,
-                    },
-                });
-
-                // if user exist return response
-                if (merch) throw new GraphQLError("user account already exist");
-                // create new user
-
-                const hashedPass = bcrypt.hashSync(password, 10);
-
-                merch = await Merchant.create({
-                    shopname,
-                    username,
-                    email,
-                    firstname,
-                    lastname,
-                    password: hashedPass,
-                });
-
-                return {
-                    id: merch?.id,
-                    shopname: merch?.shopname,
-                    username: merch.username,
-                    email: merch.email,
-                };
-            } catch (error) {
-                console.log("error: ", error);
-                throw new GraphQLError(error);
-            }
-        },
-    },
-};
 
 const server = new ApolloServer({
     typeDefs,
