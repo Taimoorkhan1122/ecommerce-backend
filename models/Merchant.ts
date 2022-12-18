@@ -1,16 +1,15 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../dbconfig');
+import { DataTypes } from 'sequelize';
+import { sequelize } from '.././dbconfig.js';
 
-const User = sequelize.define('User', {
+const Merchant = sequelize.define('Merchant', {
     id: {
         primaryKey: true,
         allowNull: false,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
     },
+    shopname: DataTypes.STRING,
     username: DataTypes.STRING,
-    firstname: DataTypes.STRING,
-    lastname: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
 
@@ -18,4 +17,4 @@ const User = sequelize.define('User', {
     timestamps: true
 })
 
-exports.User = User;
+export default Merchant;

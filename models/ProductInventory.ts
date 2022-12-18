@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../dbconfig');
+import { DataTypes } from 'sequelize';
+import { sequelize } from '.././dbconfig.js';
 
-const OrderItem = sequelize.define('OrderItem', {
+const ProductInventory = sequelize.define('ProductInventory', {
     id: {
         primaryKey: true,
         allowNull: false,
@@ -13,4 +13,4 @@ const OrderItem = sequelize.define('OrderItem', {
     timestamps: true
 })
 
-exports.OrderItem = OrderItem;
+export default ProductInventory;

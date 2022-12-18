@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../dbconfig');
+import { DataTypes } from 'sequelize';
+import { sequelize } from '.././dbconfig.js';
 
 const Product = sequelize.define('Product', {
     id: {
@@ -15,4 +15,4 @@ const Product = sequelize.define('Product', {
     timestamps: true
 })
 
-exports.Product = Product;
+export default Product;

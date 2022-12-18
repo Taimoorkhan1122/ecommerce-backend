@@ -1,6 +1,6 @@
-const { body, validationResult, param } = require("express-validator");
+import { body, validationResult, param } from "express-validator";
 
-exports.userValidator = [
+export const userValidator = [
     param('id').notEmpty().isUUID("4").withMessage("id is not valid"),
     body("username").isString().isLength({ min: 3 }).optional(),
     body("firstname").isString().isLength({ min: 3 }).optional(),

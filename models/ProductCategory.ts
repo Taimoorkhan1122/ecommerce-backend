@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../dbconfig');
+import { DataTypes } from 'sequelize';
+import { sequelize } from '.././dbconfig.js';
 
 const ProductCategory = sequelize.define('ProductCategory', {
     id: {
@@ -13,5 +13,4 @@ const ProductCategory = sequelize.define('ProductCategory', {
 }, {
     timestamps: true,
 })
-
-exports.ProductCategory = ProductCategory;
+export default ProductCategory;

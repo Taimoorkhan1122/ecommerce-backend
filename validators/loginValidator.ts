@@ -1,9 +1,6 @@
-const { body, validationResult } = require("express-validator");
+import { body, validationResult } from "express-validator";
 
-exports.registerValidators = [
-    body("username").isString().isLength({ min: 3 }).notEmpty(),
-    body("firstname").isString().isLength({ min: 3 }).notEmpty(),
-    body("lastname").isString().isLength({ min: 3 }).notEmpty(),
+export const loginValidators = [
     body("email").isEmail().notEmpty(),
     body("password").isString().isLength({ min: 8 }).notEmpty(),
     (req, res, next) => {
