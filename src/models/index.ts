@@ -15,10 +15,12 @@ Store.belongsTo(User);
 Store.hasMany(Product, {
     onDelete: 'RESTRICT'
 });
-Product.belongsTo(Store);
 
-Product.belongsTo(ProductCategory);
-Product.belongsTo(ProductInventory);
+Product['Store'] = Product.belongsTo(Store);
+
+Product['Category'] = Product.belongsTo(ProductCategory);
+
+Product['Inventory'] = Product.belongsTo(ProductInventory);
 
 // OrderDetails table relations
 Payment.hasOne(OrderDetails);
