@@ -1,63 +1,42 @@
-import Merchant from "./Merchant.js";
+import Store from "./Store.js";
 import Product from "./Product.js";
 import ProductCategory from "./ProductCategory.js";
 import ProductInventory from "./ProductInventory.js";
 import Payment from "./Payment.js";
 import OrderDetails from "./OrderDetail.js";
 import OrderItem from "./OrderItem.js";
+import User from "./User.js";
 
-Merchant.hasMany(Product);
-Product.belongsTo(Merchant, {
-    foreignKey: {
-        name: "id",
-    },
+User.hasMany(Store, {
+    onDelete: 'RESTRICT'
 });
+Store.belongsTo(User);
 
-Product.belongsTo(ProductCategory, {
-    foreignKey: {
-        name: "id",
-    },
+Store.hasMany(Product, {
+    onDelete: 'RESTRICT'
 });
+Product.belongsTo(Store);
 
-Product.belongsTo(ProductInventory, {
-    foreignKey: {
-        name: "id",
-    },
-});
+Product.belongsTo(ProductCategory);
+Product.belongsTo(ProductInventory);
 
 // OrderDetails table relations
-Payment.hasOne(OrderDetails, {
-    foreignKey: {
-        name: "id",
-    },
-});
-OrderDetails.belongsTo(Payment, {
-    foreignKey: {
-        name: "id",
-    },
-});
+Payment.hasOne(OrderDetails);
+OrderDetails.belongsTo(Payment);
 
 // Payment table detail relations
-OrderDetails.hasMany(OrderItem, {
-    foreignKey: {
-        name: "id",
-    },
-});
+OrderDetails.hasMany(OrderItem);
 OrderItem.belongsTo(OrderDetails);
 
-Product.hasMany(OrderItem, {
-    foreignKey: {
-        name: "id",
-    },
-});
-
+Product.hasMany(OrderItem);
 
 export {
+    User,
     Product,
     ProductInventory,
     ProductCategory,
     OrderDetails,
     OrderItem,
     Payment,
-    Merchant
-}
+    Store,
+};

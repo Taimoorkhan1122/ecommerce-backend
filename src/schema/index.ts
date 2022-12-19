@@ -1,17 +1,21 @@
-import { MerchantQuery, MerchantMutation, merchantTypes } from './merchant/index.js';
+import { StoreMutation, StoreQuery, StoreTypes } from './store/index.js';
+import { UserMutation, UserQuery, UserTypes} from './user/index.js';
 
 export const typeDefs = `#graphql
     type Query
     type Mutation 
 
-    ${merchantTypes}
+    ${StoreTypes}
+    ${UserTypes}
 `;
 
 export const resolvers = {
     Query: {
-        ...MerchantQuery
+        ...StoreQuery,
+        ...UserQuery 
     },
     Mutation: {
-        ...MerchantMutation
+        ...StoreMutation,
+        ...UserMutation,
     },
 };

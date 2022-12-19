@@ -3,38 +3,37 @@ import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { connect } from "../../dbconfig.js";
-import { Merchant } from "../../models/index.js";
+import { Store } from "../../models/index.js";
+import { Context } from "../../index.js";
 
-export const MerchantMutation = {
-    register: async (parent, args, contextValue, info) => {
-        const { shopname, email, firstname, lastname, username, password } = args;
+export const StoreMutation = {
+    createStore: async (parent, args, ctx: Context, info) => {
+        const { storename, password, admin } = args;
         try {
             await connect();
 
-            let merch: any = await Merchant.findOne({
+            let store: any = await Store.findOne({
                 where: {
-                    email,
+                    storename,
                 },
             });
 
             // if user exist return response
-            if (merch) return new GraphQLError("user account already exist");
+            if (store) return new GraphQLError("store name already exist, choose a different name");
             // create new user
 
             const hashedPass = bcrypt.hashSync(password, 10);
-
-            merch = await Merchant.create({
-                shopname,
-                username,
-                email,
-                firstname,
-                lastname,
+            console.log("...........", ctx.id);
+            
+            store = await Store.create({
+                storename,
                 password: hashedPass,
+                UserId: ctx.id
             });
 
             const token = jwt.sign({
-                id: merch?.id,
-            },process.env.ACCESS_TOKEN_SECRET, {
+                id: store?.id,
+            }, process.env.ACCESS_TOKEN_SECRET, {
                 expiresIn: '1d',
                 algorithm: 'HS256'
             });

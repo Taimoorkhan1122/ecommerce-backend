@@ -13,6 +13,10 @@ const User = sequelize.define('User', {
     lastname: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
+    isMerchnat: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
 
 }, {
     timestamps: true

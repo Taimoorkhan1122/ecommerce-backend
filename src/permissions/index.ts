@@ -3,9 +3,11 @@ import * as rules from './rules.js'
 
 export const permissions = shield({
     Query: {
-      login : rules.isAuthenticated,
+      loginStore : rules.isAuthenticated,
+      login : rules.registerRule,
     },
     Mutation: {
-      register: rules.isValidInput
+      createStore: and(rules.isAuthenticated, rules.createStoreRule),
+      register:  rules.registerRule
     }
   })

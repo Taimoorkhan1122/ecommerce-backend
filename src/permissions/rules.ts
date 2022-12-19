@@ -1,4 +1,4 @@
-import jwt,  from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { Context } from "./../index";
 import { rule, inputRule } from "graphql-shield";
 
@@ -15,10 +15,17 @@ export const isAuthenticated = rule('authentication')(async (parent, args, ctx: 
     return  new Error("invalid access token")
 });
 
-export const isValidInput = inputRule()((yup) =>
+export const createStoreRule = inputRule()((yup) =>
     yup.object().shape({
-        username: yup.string().required(),
+        storename: yup.string().required(),
         password: yup.string().required().min(8),
-        email: yup.string().email(),
+    }),
+);
+
+export const registerRule = inputRule()((yup) =>
+    yup.object().shape({
+        username: yup.string(),
+        password: yup.string().required().min(8),
+        email: yup.string().email().required(),
     }),
 );
