@@ -13,15 +13,14 @@ export const ProductreMutation = {
 
             let product: any = await Product.findOne({
                 where: {
-                    [Op.and]: [{title}, {ProductCategoryId: category}]
+                    [Op.and]: [{ title }, { ProductCategoryId: category }, { StoreId: storeId }],
                 },
             });
 
             // if user exist return response
-            if (product)
-                return new GraphQLError("product already exist");
+            if (product) return new GraphQLError("product already exist");
             // create new user
-            
+
             console.log("...........", ctx.id);
 
             product = await Product.create(
@@ -39,9 +38,6 @@ export const ProductreMutation = {
                     include: [
                         {
                             model: Store,
-                            where: {
-                                id: storeId
-                            }
                         },
                         {
                             model: ProductInventory,

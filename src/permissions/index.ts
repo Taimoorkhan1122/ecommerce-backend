@@ -9,6 +9,7 @@ export const permissions = shield({
     Mutation: {
       createStore: and(rules.isAuthenticated, rules.createStoreRule),
       createProduct:  rules.isAuthenticated,
+      createCategory:  rules.isAuthenticated,
       register:  rules.registerRule,
     }
   })

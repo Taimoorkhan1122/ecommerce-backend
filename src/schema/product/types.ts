@@ -28,14 +28,14 @@ export const ProductTypes = `#graphql
             quantity: Int!,
             ): Product
 
-        """ Creates a new product """
+        """ Updates a product with given ID """
         updateProduct(
             pId: String!, 
-            title: String!,
+            title: String,
             description: String,
-            price: Float!,
-            category: String!,
-            quantity: Int!)
+            price: Float,
+            category: String,
+            quantity: Int)
             : Product
 
         """ Creates a new product """

@@ -7,23 +7,31 @@ import OrderDetails from "./OrderDetail.js";
 import OrderItem from "./OrderItem.js";
 import User from "./User.js";
 
+// -- User associations --
 User.hasMany(Store, {
     onDelete: 'RESTRICT'
 });
 Store.belongsTo(User);
 
+// -- Product associations --
 Store.hasMany(Product, {
     onDelete: 'RESTRICT'
 });
 
-Product['Store'] = Product.belongsTo(Store);
+Product.belongsTo(Store);
 
-Product['Category'] = Product.belongsTo(ProductCategory);
+Store.hasMany(ProductCategory, {
+    onDelete: 'RESTRICT'
+});
+ProductCategory.belongsTo(Store)
 
-Product['Inventory'] = Product.belongsTo(ProductInventory);
+Product.belongsTo(ProductCategory);
 
-// OrderDetails table relations
+Product.belongsTo(ProductInventory);
+
+// Order Details associations
 Payment.hasOne(OrderDetails);
+
 OrderDetails.belongsTo(Payment);
 
 // Payment table detail relations
