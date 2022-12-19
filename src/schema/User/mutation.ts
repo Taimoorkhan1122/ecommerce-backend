@@ -8,8 +8,8 @@ import { User } from "../../models/index.js";
 
 export const UserMutation = {
     register: async (parent, args, ctx: Context, info) => {
-        const { username, firstname, lastname, email, password } = args;
         try {
+            const { username, firstname, lastname, email, password } = args;
             await connect();
 
             let user: any = await User.findOne({
