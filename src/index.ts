@@ -1,33 +1,59 @@
 import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
+import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { applyMiddleware } from "graphql-middleware";  
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { config } from "dotenv";
+import http from "http";
+import cors from "cors";
+import bodyParser from "body-parser";
+import express from "express";
 
 import { init } from "./dbconfig.js";
 import { typeDefs, resolvers } from "./schema/index.js";
+import { permissions } from "./permissions/index.js";
+
+config();
 
 // initialize db connection
 init();
 
-const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+export interface Context {
+    token?: String;
+    id?: String;
+}
+
+const port = process.env.PORT || 4000;
+const app = express();
+const httpServer = http.createServer(app);
+
+const schema = makeExecutableSchema({typeDefs, resolvers})
+const schemaWithPermissions = applyMiddleware(schema, permissions)
+
+// graphql server
+const server = new ApolloServer<Context>({
+    schema: schemaWithPermissions,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
-const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-});
+await server.start();
 
-console.log("🚀 server up at :" + url);
+await new Promise<void>((resolve) => httpServer.listen({ port }, resolve));
 
-const books = [
-    {
-        title: "The Awakening",
-        author: "Kate Chopin",
-    },
-    {
-        title: "City of Glass",
-        author: "Paul Auster",
-    },
-];
+app.use((req, res, next) => {
+    console.log(req.path);
+    next();
+})
+app.use(
+    "/graphql",
+    cors<cors.CorsRequest>(),
+    bodyParser.json({ limit: "50mb" }),
+    expressMiddleware(server, {
+        context: async ({ req }) => ({ token: req.headers }),
+    }),
+);
+
+console.log("🚀 server up at : " + port);
 
 // app.get("/user/:id", async (req, res) => {
 //     const payment = await Payment.create({

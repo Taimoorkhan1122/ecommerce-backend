@@ -2,7 +2,8 @@ import { MerchantQuery, MerchantMutation, merchantTypes } from './merchant/index
 
 export const typeDefs = `#graphql
     type Query
-    type Mutation
+    type Mutation 
+
     ${merchantTypes}
 `;
 

@@ -1,21 +1,22 @@
 import { GraphQLError } from 'graphql';
 
 import { connect } from "../../dbconfig.js";
+import { Context } from '../../index.js';
 import { Merchant } from "../../models/index.js";
 
 export const MerchantQuery = {
-    merchant: async (parent, args, contextValue, info) => {
+    login: async (parent, args, ctx: Context, info) => {
         try {
             await connect();
-
+            if(!ctx.id) return new GraphQLError("user id not found, must provid a valid token")
             const merch: any = await Merchant.findOne({
                 where: {
-                    email: args.email,
+                    id: ctx.id,
                 },
             });
 
             if (!merch)
-                throw new GraphQLError("merchant not found", {
+                return new GraphQLError("merchant not found", {
                     extensions: {
                         code: "QUERY_NOT_FOUND",
                     },

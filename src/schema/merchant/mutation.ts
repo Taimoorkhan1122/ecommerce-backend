@@ -1,11 +1,12 @@
-import { GraphQLError } from 'graphql';
+import { GraphQLError } from "graphql";
 import * as bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { connect } from "../../dbconfig.js";
 import { Merchant } from "../../models/index.js";
 
 export const MerchantMutation = {
-    addMerchant: async (parent, args, contextValue, info) => {
+    register: async (parent, args, contextValue, info) => {
         const { shopname, email, firstname, lastname, username, password } = args;
         try {
             await connect();
@@ -17,7 +18,7 @@ export const MerchantMutation = {
             });
 
             // if user exist return response
-            if (merch) throw new GraphQLError("user account already exist");
+            if (merch) return new GraphQLError("user account already exist");
             // create new user
 
             const hashedPass = bcrypt.hashSync(password, 10);
@@ -31,15 +32,17 @@ export const MerchantMutation = {
                 password: hashedPass,
             });
 
-            return {
+            const token = jwt.sign({
                 id: merch?.id,
-                shopname: merch?.shopname,
-                username: merch.username,
-                email: merch.email,
-            };
+            },process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: '1d',
+                algorithm: 'HS256'
+            });
+
+            return token;
         } catch (error) {
             console.log("error: ", error);
-            throw new GraphQLError(error);
+            return new GraphQLError(error);
         }
     },
 };
