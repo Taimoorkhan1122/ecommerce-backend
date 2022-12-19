@@ -21,8 +21,6 @@ export const ProductreMutation = {
             if (product) return new GraphQLError("product already exist");
             // create new user
 
-            console.log("...........", ctx.id);
-
             product = await Product.create(
                 {
                     title,
@@ -37,29 +35,62 @@ export const ProductreMutation = {
                 {
                     include: [
                         {
-                            model: Store,
-                        },
-                        {
                             model: ProductInventory,
-                        },
-                        {
-                            model: ProductCategory,
                         },
                     ],
                 },
             );
 
-            console.log("Product ----> ", product);
+            return product.id;
+        } catch (error) {
+            console.log("error: ", error);
+            return new GraphQLError(error);
+        }
+    },
 
-            return {
-                id: product.id,
-                title: product.title,
-                description: product.description,
-                price: product.price,
-                category: product.category,
-                quantity: product.quantity,
-                storename: product.storename,
-            };
+    updateProduct: async (parent, args, ctx: Context, info) => {
+        const fields = Object.keys(args).filter((f) => f != "category");
+        const storeId = ctx.id;
+        try {
+            await connect();
+
+            let product: any = await Product.findOne({
+                where: {
+                    [Op.and]: [{ id: args.pId }, { StoreId: storeId }],
+                },
+            });
+
+            // if user exist return response
+            if (!product) return new GraphQLError("product does not exist");
+            // create new user
+
+            let inventory = [0];
+            const updated = await Product.update(
+                {
+                    ...args,
+                },
+                {
+                    where: {
+                        id: args.pId,
+                        StoreId: storeId,
+                    },
+                },
+            );
+
+            if (args.quantity) {
+                inventory = await ProductInventory.update(
+                    {
+                        quantity: args.quantity,
+                    },
+                    {
+                        where: {
+                            id: product.ProductInventoryId,
+                        },
+                    },
+                );
+            }
+
+            return updated[0] || inventory[0];
         } catch (error) {
             console.log("error: ", error);
             return new GraphQLError(error);

@@ -1,7 +1,7 @@
 import { StoreMutation, StoreQuery, StoreTypes } from './store/index.js';
 import { UserMutation, UserQuery, UserTypes} from './user/index.js';
-import { ProductreMutation, ProductTypes } from './product/index.js';
-import { CategoryMutation, CategoryTypes } from './category/index.js';
+import { ProductQuery, ProductreMutation, ProductTypes } from './product/index.js';
+import { CategoryMutation, CategoryQuery, CategoryTypes } from './category/index.js';
 
 export const typeDefs = `#graphql
     type Query
@@ -11,12 +11,15 @@ export const typeDefs = `#graphql
     ${UserTypes}
     ${ProductTypes}
     ${CategoryTypes}
+
 `;
 
 export const resolvers = {
     Query: {
         ...StoreQuery,
-        ...UserQuery 
+        ...UserQuery,
+        ...ProductQuery,
+        ...CategoryQuery 
     },
     Mutation: {
         ...StoreMutation,

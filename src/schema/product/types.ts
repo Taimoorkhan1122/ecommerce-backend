@@ -26,7 +26,7 @@ export const ProductTypes = `#graphql
             price: Float!,
             category: String!,
             quantity: Int!,
-            ): Product
+            ): ID
 
         """ Updates a product with given ID """
         updateProduct(
@@ -36,9 +36,9 @@ export const ProductTypes = `#graphql
             price: Float,
             category: String,
             quantity: Int)
-            : Product
+            : Int
 
         """ Creates a new product """
-        deleteProduct(pId: String!): String
+        deleteProduct(pId: String!): Int
     }
 `;

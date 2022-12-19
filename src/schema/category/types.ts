@@ -9,7 +9,7 @@ export const CategoryTypes = `#graphql
         """ Returns category with provided ID """
         category(cId: String!): Category
         """ Returns list of categories with provided store ID """
-        categories(cId: String!): [Category]
+        categories: [Category]
     }
 
 
