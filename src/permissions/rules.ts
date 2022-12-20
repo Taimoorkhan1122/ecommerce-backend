@@ -5,7 +5,7 @@ import { rule, inputRule } from "graphql-shield";
 export const isAuthenticated = rule('authentication')(async (parent, args, ctx: Context, info) => {
     const token = ctx.token["authorization"].replace("Bearer ", "");
     const user: any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    // console.log("auth uer id........", {token, user});
+    console.log("auth uer id........", {token, user});
     
     
     if(user !== null){

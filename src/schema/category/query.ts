@@ -41,10 +41,9 @@ export const CategoryQuery = {
             
             const cats: any[] = await ProductCategory.findAll({
                 where: {
-                    StoreId: ctx.id,
+                    UserId: ctx.id,
                 },
             });
-            console.log({cats, ctx: ctx.id});
             
 
             if (!cats)
