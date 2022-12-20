@@ -24,7 +24,18 @@ export const UserMutation = {
                         code: "INVALID_CREDS",
                     },
                 });
-            
+
+            const token = jwt.sign(
+                {
+                    id: user?.id,
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: "1d",
+                    algorithm: "HS256",
+                },
+            );
+
             return {
                 id: user?.id,
                 firstname: user?.firstname,
@@ -32,7 +43,9 @@ export const UserMutation = {
                 username: user.username,
                 email: user.email,
                 isMerchant: user.isMerchant,
+                token: token,
             };
+
         } catch (error) {
             console.log("error", error);
             throw new Error(error);
@@ -63,17 +76,17 @@ export const UserMutation = {
                 password: hashedPass,
             });
 
-            const token = jwt.sign(
-                {
-                    id: user?.id,
-                },
-                process.env.ACCESS_TOKEN_SECRET,
-                {
-                    expiresIn: "1d",
-                    algorithm: "HS256",
-                },
-            );
-            return token;
+            // const token = jwt.sign(
+            //     {
+            //         id: user?.id,
+            //     },
+            //     process.env.ACCESS_TOKEN_SECRET,
+            //     {
+            //         expiresIn: "1d",
+            //         algorithm: "HS256",
+            //     },
+            // );
+            return "regesteration successful";
         } catch (error) {
             console.log("error: ", error);
             return new GraphQLError("something went wrong!");

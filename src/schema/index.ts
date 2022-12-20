@@ -23,7 +23,7 @@ export const resolvers = {
     },
     Mutation: {
         ...StoreMutation,
-        ...UserMutation,
+        ...UserMutation,    
         ...ProductreMutation,
         ...CategoryMutation
     },

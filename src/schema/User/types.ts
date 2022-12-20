@@ -6,6 +6,7 @@ export const UserTypes = `#graphql
         firstname: String!
         lastname: String!
         isMerchant: Boolean
+        token: String!
      }
 
     type Mutation {
