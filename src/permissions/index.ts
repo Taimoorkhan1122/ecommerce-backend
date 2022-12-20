@@ -3,7 +3,6 @@ import * as rules from './rules.js'
 
 export const permissions = shield({
     Query: {
-      login : rules.registerRule,
       loginStore : rules.isAuthenticated,
       product : rules.isAuthenticated,
       products : rules.isAuthenticated,
@@ -16,5 +15,6 @@ export const permissions = shield({
       updateProduct:  rules.isAuthenticated,
       createCategory:  rules.isAuthenticated,
       register:  rules.registerRule,
+      login : rules.registerRule,
     }
   })

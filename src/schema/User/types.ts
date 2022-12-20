@@ -8,11 +8,6 @@ export const UserTypes = `#graphql
         isMerchant: Boolean
      }
 
-    type Query {
-        """ Accepts  email and returns provided fields """
-        login(email: String!, password: String!): User
-    }
-
     type Mutation {
         """ Accepts  username, first and last name, email and password and returns a token """
         register(
@@ -23,6 +18,9 @@ export const UserTypes = `#graphql
             password: String!,
             ): String
 
+        """ Accepts  email and returns provided fields """
+        login(email: String!, password: String!): User
+        
         """ Accepts user's UUID """
         deleteUser(id: String!): String
     }

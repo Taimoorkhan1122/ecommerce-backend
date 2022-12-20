@@ -7,6 +7,37 @@ import { connect } from "../../dbconfig.js";
 import { User } from "../../models/index.js";
 
 export const UserMutation = {
+    login: async (parent, args, ctx: Context, info) => {
+        const { email, password } = args;
+        try {
+            await connect();
+
+            const user: any = await User.findOne({
+                where: {
+                    email,
+                },
+            });
+
+            if (!user || !bcrypt.compareSync(password, user.password))
+                return new GraphQLError("invalid email or password", {
+                    extensions: {
+                        code: "INVALID_CREDS",
+                    },
+                });
+            
+            return {
+                id: user?.id,
+                firstname: user?.firstname,
+                lastname: user.lastname,
+                username: user.username,
+                email: user.email,
+                isMerchant: user.isMerchant,
+            };
+        } catch (error) {
+            console.log("error", error);
+            throw new Error(error);
+        }
+    },
     register: async (parent, args, ctx: Context, info) => {
         try {
             const { username, firstname, lastname, email, password } = args;
@@ -43,25 +74,23 @@ export const UserMutation = {
                 },
             );
             return token;
-
         } catch (error) {
             console.log("error: ", error);
             return new GraphQLError("something went wrong!");
         }
     },
 
-    deleteUser:async (parent, args, ctx: Context, info) => {
+    deleteUser: async (parent, args, ctx: Context, info) => {
         try {
             await connect();
             const user = await User.findByPk(args.id);
 
             if (!user) return new GraphQLError("user not found!");
-            await user.destroy()
-            return ("user deleted successfully");
-        }
-        catch (error) {
+            await user.destroy();
+            return "user deleted successfully";
+        } catch (error) {
             console.log("error", error);
-            return new GraphQLError("something went wrong")
+            return new GraphQLError("something went wrong");
         }
-    }
+    },
 };
