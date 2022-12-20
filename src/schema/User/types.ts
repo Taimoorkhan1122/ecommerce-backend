@@ -9,6 +9,14 @@ export const UserTypes = `#graphql
         token: String!
      }
 
+     type Query {
+         """ Returns user's store  with provided ID """
+         userStore(sId: String!): Store
+
+         """ Returns all stores for current user"""
+         userStores: [Store]
+     }
+
     type Mutation {
         """ Accepts  username, first and last name, email and password and returns a token """
         register(

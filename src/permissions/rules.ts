@@ -18,7 +18,6 @@ export const isAuthenticated = rule('authentication')(async (parent, args, ctx: 
 export const createStoreRule = inputRule()((yup) =>
     yup.object().shape({
         storename: yup.string().required(),
-        password: yup.string().required().min(8),
     }),
 );
 

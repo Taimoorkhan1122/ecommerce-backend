@@ -20,25 +20,35 @@ export const StoreMutation = {
 
             // if user exist return response
             if (store) return new GraphQLError("store name already exist, choose a different name");
-            // create new user
 
-            const hashedPass = bcrypt.hashSync(password, 10);
-            console.log("...........", ctx.id);
-            
+            // create new user
             store = await Store.create({
                 storename,
-                password: hashedPass,
-                UserId: ctx.id
+                admin: ctx.id,
+                UserId: ctx.id,
             });
 
-            const token = jwt.sign({
-                id: store?.id,
-            }, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: '1d',
-                algorithm: 'HS256'
-            });
+            const token = jwt.sign(
+                {
+                    id: store?.id,
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: "1d",
+                    algorithm: "HS256",
+                },
+            );
 
-            return token;
+            console.log(store);
+            
+
+            return {
+                id: store.id,
+                storename: store.storename,
+                userId: store.UserID,
+                admin: store.admin,
+            };
+
         } catch (error) {
             console.log("error: ", error);
             return new GraphQLError(error);

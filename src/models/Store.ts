@@ -9,7 +9,7 @@ const Store = sequelize.define('Store', {
         defaultValue: DataTypes.UUIDV4
     },
     storename: DataTypes.STRING,
-    password: DataTypes.STRING,
+    admin: DataTypes.STRING,
 
 }, {
     timestamps: true

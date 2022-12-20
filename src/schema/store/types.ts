@@ -3,6 +3,7 @@ export const StoreTypes = `#graphql
         id: String!
         storename: String!
         admin: String
+        userId: String
     }
 
     type Query {
@@ -15,8 +16,7 @@ export const StoreTypes = `#graphql
         """ Accepts shopname, username, email and password and returns a JWT """
         createStore(
             storename:String!,
-            password: String!,
             admin: String
-            ): String
+            ): Store
     }
 `;
