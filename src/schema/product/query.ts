@@ -31,6 +31,7 @@ export const ProductQuery = {
                 title: product.title,
                 description: product.description,
                 price: product.price,
+                image: product.image,
                 category: product.ProductCategory.title,
                 quantity: product.ProductInventory.quantity,
             };
@@ -64,6 +65,7 @@ export const ProductQuery = {
                 title: product.title,
                 description: product.description,
                 price: product.price,
+                image: product.image,
                 category: product.ProductCategory.title,
                 quantity: product.ProductInventory.quantity,
             }));

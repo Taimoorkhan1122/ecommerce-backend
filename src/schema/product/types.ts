@@ -6,6 +6,7 @@ export const ProductTypes = `#graphql
         price: Float!
         category: String!
         quantity: Int!
+        image: String
         # storename: String!
 
     }
@@ -26,6 +27,7 @@ export const ProductTypes = `#graphql
             price: Float!,
             category: String!,
             quantity: Int!,
+            image: String!
             ): ID
 
         """ Updates a product with given ID """
@@ -35,6 +37,7 @@ export const ProductTypes = `#graphql
             description: String,
             price: Float,
             category: String,
+            image: String
             quantity: Int)
             : Int
 
