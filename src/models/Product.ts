@@ -10,6 +10,7 @@ const Product = sequelize.define('Product', {
     },
     title: DataTypes.STRING,
     description: DataTypes.STRING,
+    image: DataTypes.STRING,
     price: DataTypes.DECIMAL(20, 3),
 }, {
     timestamps: true
