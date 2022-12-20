@@ -25,6 +25,7 @@ export const UserTypes = `#graphql
             lastname: String!,
             email: String!,
             password: String!,
+            isMerchant: Boolean
             ): String
 
         """ Accepts  email and returns provided fields """

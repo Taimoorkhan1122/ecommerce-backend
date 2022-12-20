@@ -35,7 +35,8 @@ export const UserMutation = {
                     algorithm: "HS256",
                 },
             );
-
+                console.log(user);
+                
             return {
                 id: user?.id,
                 firstname: user?.firstname,
@@ -53,7 +54,7 @@ export const UserMutation = {
     },
     register: async (parent, args, ctx: Context, info) => {
         try {
-            const { username, firstname, lastname, email, password } = args;
+            const { username, firstname, lastname, email, password, isMerchant } = args;
             await connect();
 
             let user: any = await User.findOne({
@@ -74,6 +75,7 @@ export const UserMutation = {
                 lastname,
                 email,
                 password: hashedPass,
+                isMerchant: isMerchant || false,
             });
 
             // const token = jwt.sign(
