@@ -32,10 +32,16 @@ User.hasMany(Product, {
 Product.belongsTo(User);
 
 User.hasMany(ProductCategory, {
-    onDelete: 'RESTRICT'
+    onDelete: 'RESTRICT',
+    foreignKey: {
+        allowNull: false,
+    }
 });
-ProductCategory.belongsTo(User)
-
+ProductCategory.belongsTo(User, {
+    foreignKey: {
+        allowNull: false,
+    }
+})
 
 
 Product.belongsTo(ProductCategory);

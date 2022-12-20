@@ -7,13 +7,16 @@ import { Context } from "../../index.js";
 export const ProductreMutation = {
     createProduct: async (parent, args, ctx: Context, info) => {
         const { title, description, price, category, quantity } = args;
-        const storeId = ctx.id;
+        const userId = ctx.id;
+        console.log("inside create product.....",userId);
+        
+        
         try {
             await connect();
 
             let product: any = await Product.findOne({
                 where: {
-                    [Op.and]: [{ title }, { ProductCategoryId: category }, { StoreId: storeId }],
+                    [Op.and]: [{ title }, { ProductCategoryId: category }, { UserId: userId }],
                 },
             });
 
@@ -29,8 +32,8 @@ export const ProductreMutation = {
                     ProductInventory: {
                         quantity,
                     },
-                    StoreId: storeId,
                     ProductCategoryId: category,
+                    UserId: userId
                 },
                 {
                     include: [
@@ -50,13 +53,13 @@ export const ProductreMutation = {
 
     updateProduct: async (parent, args, ctx: Context, info) => {
         const fields = Object.keys(args).filter((f) => f != "category");
-        const storeId = ctx.id;
+        const userId = ctx.id;
         try {
             await connect();
 
             let product: any = await Product.findOne({
                 where: {
-                    [Op.and]: [{ id: args.pId }, { StoreId: storeId }],
+                    [Op.and]: [{ id: args.pId }, { UserId: userId }],
                 },
             });
 
@@ -72,7 +75,7 @@ export const ProductreMutation = {
                 {
                     where: {
                         id: args.pId,
-                        StoreId: storeId,
+                        UserId: userId,
                     },
                 },
             );

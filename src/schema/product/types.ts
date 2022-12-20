@@ -6,15 +6,15 @@ export const ProductTypes = `#graphql
         price: Float!
         category: String!
         quantity: Int!
-        storename: String!
+        # storename: String!
 
     }
 
     type Query {
         """ Returns product with provided ID """
         product(pId: String!): Product
-        """ Returns list of products with provided store ID """
-        products(sId: String!): [Product]
+        """ Returns list of products for the user """
+        products: [Product]
     }
 
 
