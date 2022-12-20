@@ -7,23 +7,36 @@ import OrderDetails from "./OrderDetail.js";
 import OrderItem from "./OrderItem.js";
 import User from "./User.js";
 
+// // -- User associations --
+// User.hasMany(Store, {
+//     onDelete: 'RESTRICT'
+// });
+// Store.belongsTo(User);
+
+// // -- Product associations --
+// Store.hasMany(Product, {
+//     onDelete: 'RESTRICT'
+// });
+
+// // Product.belongsTo(Store);
+
+// Store.hasMany(ProductCategory, {
+//     onDelete: 'RESTRICT'
+// });
+// ProductCategory.belongsTo(Store)
+
 // -- User associations --
-User.hasMany(Store, {
+User.hasMany(Product, {
     onDelete: 'RESTRICT'
 });
-Store.belongsTo(User);
+Product.belongsTo(User);
 
-// -- Product associations --
-Store.hasMany(Product, {
+User.hasMany(ProductCategory, {
     onDelete: 'RESTRICT'
 });
+ProductCategory.belongsTo(User)
 
-Product.belongsTo(Store);
 
-Store.hasMany(ProductCategory, {
-    onDelete: 'RESTRICT'
-});
-ProductCategory.belongsTo(Store)
 
 Product.belongsTo(ProductCategory);
 
