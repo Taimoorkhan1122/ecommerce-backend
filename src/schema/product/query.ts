@@ -91,17 +91,21 @@ export const ProductQuery = {
                         code: "QUERY_NOT_FOUND",
                     },
                 });
-                
-            return products.map((product) => ({
-                id: product.id,
-                userId: product.UserId,
-                title: product.title,
-                description: product.description,
-                price: product.price,
-                image: product.image,
-                category: product.ProductCategory.title,
-                quantity: product.ProductInventory.quantity,
-            }));
+
+
+            return products.map(
+                (product) =>
+                    product !== null && {
+                        id: product.id ?? "",
+                        userId: product.UserId ?? "",
+                        title: product.title ?? "",
+                        description: product.description ?? "",
+                        price: product.price ?? 0.0,
+                        image: product.image ?? "",
+                        category: product.ProductCategory.title ?? "",
+                        quantity: product.ProductInventory.quantity ?? 0.0,
+                    },
+            );
         } catch (error) {
             console.log("error", error);
             throw new Error(error);

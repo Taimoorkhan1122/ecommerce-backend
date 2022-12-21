@@ -14,6 +14,7 @@ export const permissions = shield({
       createStore: and(rules.isAuthenticated, rules.createStoreRule),
       createProduct:  rules.isAuthenticated,
       updateProduct:  rules.isAuthenticated,
+      deleteProduct:  rules.isAuthenticated,
       createCategory:  rules.isAuthenticated,
       register:  rules.registerRule,
       login : rules.registerRule,

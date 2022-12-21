@@ -6,11 +6,10 @@ import { Context } from "../../index.js";
 
 export const ProductreMutation = {
     createProduct: async (parent, args, ctx: Context, info) => {
-        const { title, description, price, category, quantity } = args;
+        const { title, description, price, category, quantity, image } = args;
         const userId = ctx.id;
-        console.log("inside create product.....",userId);
-        
-        
+        console.log("inside create product.....", userId);
+
         try {
             await connect();
 
@@ -29,11 +28,12 @@ export const ProductreMutation = {
                     title,
                     description,
                     price,
+                    image,
                     ProductInventory: {
                         quantity,
                     },
                     ProductCategoryId: category,
-                    UserId: userId
+                    UserId: userId,
                 },
                 {
                     include: [
@@ -56,6 +56,7 @@ export const ProductreMutation = {
         const userId = ctx.id;
         try {
             await connect();
+            console.log("this...", {data: args});
 
             let product: any = await Product.findOne({
                 where: {
@@ -97,6 +98,21 @@ export const ProductreMutation = {
         } catch (error) {
             console.log("error: ", error);
             return new GraphQLError(error);
+        }
+    },
+
+    deleteProduct: async (parent, args, ctx: Context, info) => {
+        try {
+            await connect();
+            const product: any = await Product.findByPk(args.pId);
+
+            if (!product) return new GraphQLError("product not found!");
+            await product.destroy();
+
+            return product?.id;
+        } catch (error) {
+            console.log("error", error);
+            return new GraphQLError("something went wrong");
         }
     },
 };
