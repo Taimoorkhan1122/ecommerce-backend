@@ -27,7 +27,7 @@ export const ProductTypes = `#graphql
             price: Float!,
             category: String!,
             quantity: Int!,
-            image: String!
+            image: String
             ): ID
 
         """ Updates a product with given ID """
