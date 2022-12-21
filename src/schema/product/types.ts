@@ -6,6 +6,7 @@ export const ProductTypes = `#graphql
         price: Float!
         category: String!
         quantity: Int!
+        userId: String!
         image: String
         # storename: String!
 
@@ -16,6 +17,9 @@ export const ProductTypes = `#graphql
         product(pId: String!): Product
         """ Returns list of products for the user """
         products: [Product]
+
+        """Returns list of publically products for the all user """
+        homeProducts: [Product]
     }
 
 

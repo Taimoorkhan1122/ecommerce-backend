@@ -28,6 +28,7 @@ export const ProductQuery = {
 
             return {
                 id: product.id,
+                userId: product.UserId,
                 title: product.title,
                 description: product.description,
                 price: product.price,
@@ -62,6 +63,38 @@ export const ProductQuery = {
 
             return products.map((product) => ({
                 id: product.id,
+                userId: product.UserId,
+                title: product.title,
+                description: product.description,
+                price: product.price,
+                image: product.image,
+                category: product.ProductCategory.title,
+                quantity: product.ProductInventory.quantity,
+            }));
+        } catch (error) {
+            console.log("error", error);
+            throw new Error(error);
+        }
+    },
+
+    homeProducts: async (parent, args, ctx: Context, info) => {
+        try {
+            await connect();
+
+            const products: any[] = await Product.findAll({
+                include: [{ model: ProductInventory }, { model: ProductCategory }],
+            });
+
+            if (!products.length)
+                return new GraphQLError("no products not found", {
+                    extensions: {
+                        code: "QUERY_NOT_FOUND",
+                    },
+                });
+                
+            return products.map((product) => ({
+                id: product.id,
+                userId: product.UserId,
                 title: product.title,
                 description: product.description,
                 price: product.price,
