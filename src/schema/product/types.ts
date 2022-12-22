@@ -43,7 +43,7 @@ export const ProductTypes = `#graphql
             category: String,
             image: String
             quantity: Int)
-            : Int
+            : Product
 
         """ Delete a new product with corresponding ID """
         deleteProduct(pId: String!): String!

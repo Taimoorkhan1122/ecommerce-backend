@@ -56,7 +56,7 @@ export const ProductreMutation = {
         const userId = ctx.id;
         try {
             await connect();
-            console.log("this...", {data: args});
+            console.log("this...", { data: args });
 
             let product: any = await Product.findOne({
                 where: {
@@ -94,7 +94,27 @@ export const ProductreMutation = {
                 );
             }
 
-            return updated[0] || inventory[0];
+            if (updated.length < 0) {
+                return new GraphQLError("no rows affected")
+            }
+
+            product = await Product.findOne({
+                where: {
+                    [Op.and]: [{ id: args.pId }, { UserId: userId }],
+                },
+                include: [{ model: ProductInventory }, { model: ProductCategory }],
+            });
+            
+            return {
+                id: product.id,
+                userId: product.UserId,
+                title: product.title,
+                description: product.description,
+                price: product.price,
+                image: product.image,
+                category: product.ProductCategory.title,
+                quantity: product.ProductInventory.quantity,
+            };
         } catch (error) {
             console.log("error: ", error);
             return new GraphQLError(error);
